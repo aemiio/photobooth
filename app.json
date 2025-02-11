@@ -20,12 +20,15 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/splash.jpg",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.aemio.photobooth"
     },
     "web": {
       "favicon": "./assets/icon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-router"]
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
