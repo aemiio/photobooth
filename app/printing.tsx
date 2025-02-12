@@ -1,16 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  Animated,
-  Easing,
-  TouchableOpacity,
-} from "react-native";
+import { Dimensions, Animated, Easing } from "react-native";
+import { Box, Text, Image, Pressable } from "@gluestack-ui/themed";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
+
 
 const PrintingCanvas = () => {
   const { height } = Dimensions.get("window");
@@ -55,30 +48,78 @@ const PrintingCanvas = () => {
   }, [photoY, photoOpacity]);
 
   return (
-    <>
-      <View style={styles.container}>
-        <Text style={styles.title}>photo is printing</Text>
-        <Image
-          source={require("../assets/rectangle.png")}
-          resizeMode="contain"
-          style={styles.rectangle}
-        />
+    <Box flex={1}>
+      <Box flex={1} backgroundColor="$pink50" alignItems="center">
+        <Text
+          color="$pink400"
+          fontSize={24}
+          fontWeight="$bold"
+          position="absolute"
+          top={60}
+          left="50%"
+          style={{ transform: [{ translateX: -75 }] }}
+          zIndex={21}
+        >
+          photo is printing
+        </Text>
+
+        <Box
+          position="absolute"
+          top={60}
+          left="50%"
+          style={{
+            transform: [{ translateX: -165 }],
+            shadowColor: "$shadowLight",
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.1,
+            shadowRadius: 6,
+            elevation: 6,
+          }}
+        >
+          <Image
+            source={require("../assets/rectangle.png")}
+            alt="rectangle"
+            width={330}
+            height={410}
+            zIndex={2}
+            resizeMode="contain"
+          />
+        </Box>
+
         <Image
           source={require("../assets/phototray.png")}
-          style={styles.phototray}
+          alt="phototray"
+          position="absolute"
+          top={150}
+          left="50%"
+          style={{ transform: [{ translateX: -150 }] }}
+          width={300}
+          height={350}
+          zIndex={3}
           resizeMode="contain"
         />
+
         <Image
           source={require("../assets/tile.png")}
-          style={[styles.tileImage, { height: tileHeight }]}
+          alt="tile"
+          position="absolute"
+          bottom={0}
+          width={Dimensions.get("window").width}
+          height={tileHeight}
           resizeMode="cover"
         />
+
         {showPhoto && (
           <Animated.Image
             source={require("../assets/frame8.png")}
             style={[
-              styles.photoStrip,
               {
+                position: "absolute",
+                width: 300,
+                height: 350,
+                top: 0,
+                left: "50%",
+                zIndex: 4,
                 opacity: photoOpacity,
                 transform: [{ translateX: -150 }, { translateY: photoY }],
               },
@@ -86,110 +127,44 @@ const PrintingCanvas = () => {
             resizeMode="contain"
           />
         )}
+
         {showCollectButton && (
-          <TouchableOpacity
-            style={styles.collectButton}
+          <Pressable
+            position="absolute"
+            bottom={100}
+            backgroundColor="$pink400"
+            paddingHorizontal={20}
+            paddingVertical={10}
+            borderRadius="$xl"
+            zIndex={5}
             onPress={handleCollect}
           >
-            <Text style={styles.collectButtonText}>Collect Photo</Text>
-          </TouchableOpacity>
+            <Text color="$white" fontSize={16} fontWeight="$bold">
+              Collect Photo
+            </Text>
+          </Pressable>
         )}
-      </View>
-      <View style={styles.maskContainer}>
+      </Box>
+
+      <Box
+        position="absolute"
+        top={0}
+        left={0}
+        right={0}
+        width={Dimensions.get("window").width}
+        height={150}
+        zIndex={20}
+      >
         <Image
           source={require("../assets/mask.jpg")}
+          alt="mask"
+          width={Dimensions.get("window").width}
+          height={150}
           resizeMode="contain"
-          style={styles.mask}
         />
-      </View>
-    </>
+      </Box>
+    </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFD9DF",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#FF9C9C",
-    position: "absolute",
-    top: 60,
-    left: "50%",
-    transform: [{ translateX: -75 }],
-    zIndex: 21,
-  },
-  rectangle: {
-    position: "absolute",
-    shadowColor: "#0000001A",
-    shadowOpacity: 0.1,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowRadius: 6,
-    elevation: 6,
-    marginTop: 50,
-    bottom: 170,
-    top: 60,
-    left: "50%",
-    transform: [{ translateX: -165 }],
-    width: 330,
-    height: 410,
-    zIndex: 2,
-  },
-  tileImage: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-  },
-  phototray: {
-    position: "absolute",
-    top: 150,
-    left: "50%",
-    transform: [{ translateX: -150 }],
-    width: 300,
-    height: 350,
-    zIndex: 3,
-  },
-  photoStrip: {
-    position: "absolute",
-    width: 300,
-    height: 350,
-    top: 0,
-    left: "50%",
-    zIndex: 4,
-  },
-  maskContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    width: "100%",
-    height: 150,
-    zIndex: 20,
-  },
-  mask: {
-    width: "100%",
-    height: "100%",
-  },
-  collectButton: {
-    position: "absolute",
-    bottom: 100,
-    backgroundColor: "#FF9C9C",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 25,
-    zIndex: 5,
-  },
-  collectButtonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
 
 export default PrintingCanvas;

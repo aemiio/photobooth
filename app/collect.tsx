@@ -1,11 +1,6 @@
 import React, { useState, useRef } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  Easing,
-} from "react-native";
+import { Animated, Easing } from "react-native";
+import { Box, Pressable } from "@gluestack-ui/themed";
 
 const CollectScreen = () => {
   const [frontImage, setFrontImage] = useState("photostrip");
@@ -128,55 +123,53 @@ const CollectScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
+    <Box
+      flex={1}
+      backgroundColor="$pink50"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Pressable
         onPress={() => handlePress("note")}
-        style={[styles.imageWrapper, { zIndex: frontImage === "note" ? 2 : 1 }]}
+        style={[{ zIndex: frontImage === "note" ? 2 : 1 }]}
+        position="absolute"
+        justifyContent="center"
+        alignItems="center"
       >
         <Animated.Image
           source={require("../assets/note.png")}
-          style={[styles.note, getAnimatedStyle(true)]}
+          style={[
+            {
+              width: 350,
+              height: 250,
+            },
+            getAnimatedStyle(true),
+          ]}
           resizeMode="contain"
         />
-      </TouchableOpacity>
+      </Pressable>
 
-      <TouchableOpacity
+      <Pressable
         onPress={() => handlePress("photostrip")}
-        style={[
-          styles.imageWrapper,
-          { zIndex: frontImage === "photostrip" ? 2 : 1 },
-        ]}
+        style={[{ zIndex: frontImage === "photostrip" ? 2 : 1 }]}
+        position="absolute"
+        justifyContent="center"
+        alignItems="center"
       >
         <Animated.Image
           source={require("../assets/photostrip.png")}
-          style={[styles.photoStrip, getAnimatedStyle(false)]}
+          style={[
+            {
+              width: 250,
+              height: 500,
+            },
+            getAnimatedStyle(false),
+          ]}
           resizeMode="contain"
         />
-      </TouchableOpacity>
-    </View>
+      </Pressable>
+    </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFD9DF",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  imageWrapper: {
-    position: "absolute",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  note: {
-    width: 350,
-    height: 250,
-  },
-  photoStrip: {
-    width: 250,
-    height: 500,
-  },
-});
 
 export default CollectScreen;
