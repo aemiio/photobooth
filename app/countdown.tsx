@@ -3,7 +3,6 @@ import { Box, Text, Center } from "@gluestack-ui/themed";
 import { useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
 
-
 const CountdownScreen = () => {
   const [count, setCount] = useState(3);
   const router = useRouter();

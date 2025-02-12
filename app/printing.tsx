@@ -4,7 +4,6 @@ import { Box, Text, Image, Pressable } from "@gluestack-ui/themed";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 
-
 const PrintingCanvas = () => {
   const { height } = Dimensions.get("window");
   const tileHeight = height * 0.3;

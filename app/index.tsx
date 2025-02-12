@@ -3,7 +3,6 @@ import { Box, Text, Button, ButtonText, Center } from "@gluestack-ui/themed";
 import ValentineCanvas from "../src/components/canvas";
 import { useRouter } from "expo-router";
 
-
 const ValentineScreen = () => {
   const router = useRouter();
 
