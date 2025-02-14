@@ -60,8 +60,11 @@ const ValentineScreen = () => {
             backgroundColor="$pink200"
             borderRadius="$xl"
             onPress={handleStart}
+            alignSelf="center"
           >
-            <ButtonText color="$white">start</ButtonText>
+            <ButtonText color="$white" fontWeight="bold" fontSize={16}>
+              start
+            </ButtonText>
           </Button>
         </Center>
       </Box>

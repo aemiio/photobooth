@@ -1,42 +1,62 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, Center } from "@gluestack-ui/themed";
+import { View, StyleSheet, Dimensions, Image } from "react-native";
 import { useRouter } from "expo-router";
-import * as Haptics from "expo-haptics";
 
-const CountdownScreen = () => {
-  const [count, setCount] = useState(3);
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+
+export default function CountdownScreen() {
   const router = useRouter();
+  const [count, setCount] = useState(4);
 
   useEffect(() => {
-    const countdown = setInterval(() => {
-      setCount((prev) => {
-        if (prev <= 1) {
-          clearInterval(countdown);
+    const timer = setTimeout(() => {
+      if (count > 1) {
+        setCount(count - 1);
+      } else if (count === 1) {
+        setTimeout(() => {
           router.push("/printing");
-          return 0;
-        }
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        return prev - 1;
-      });
+        }, 1000);
+      }
     }, 1000);
 
-    return () => clearInterval(countdown);
-  }, []);
+    return () => clearTimeout(timer);
+  }, [count]);
+  const getCountdownImage = () => {
+    switch (count) {
+      case 3:
+        return require("../assets/3.png");
+      case 2:
+        return require("../assets/2.png");
+      case 1:
+        return require("../assets/1.png");
+      default:
+        return require("../assets/3.png");
+    }
+  };
 
   return (
-    <Box flex={1} backgroundColor="$pink50">
-      <Center flex={1}>
-        <Text
-          color="$pink400"
-          fontSize={24}
-          fontWeight="$bold"
-          textAlign="center"
-        >
-          {count}
-        </Text>
-      </Center>
-    </Box>
+    <View style={styles.container}>
+      <Image
+        source={getCountdownImage()}
+        style={styles.countdownImage}
+        resizeMode="cover"
+      />
+    </View>
   );
-};
+}
 
-export default CountdownScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "rgba(255, 217, 223, 0.9)",
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+  },
+  countdownImage: {
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT + 100,
+    position: "absolute",
+    top: 0,
+    left: 0,
+  },
+});
