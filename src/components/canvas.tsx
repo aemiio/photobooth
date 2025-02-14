@@ -8,8 +8,7 @@ const ValentineCanvas = () => {
   const canvasWidth = width;
   const tileHeight = height * 0.3;
 
-  // Use the actual color value from your theme
-  const lineColor = "#F07070"; // This is your $pink300 color
+  const lineColor = "#F07070";
 
   return (
     <>
